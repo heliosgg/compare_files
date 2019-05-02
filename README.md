@@ -1,3 +1,3 @@
-# compare_files
-
-Put file1.txt and file2.txt with solution and start this.
+# compare_files  
+Shows numbers of rows with difference of two files.
+Usage: compare_files.exe file_one file_two
