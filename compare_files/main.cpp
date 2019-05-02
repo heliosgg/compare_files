@@ -7,38 +7,52 @@
 
 using namespace std;
 
-int main()
+#define TEMP_LEN 4096
+
+int main(int argc, char** argv)
 {
-  int iCounter = 1;
+   FILE* fFirst;
+   FILE* fSecond;
 
-  string sTemp1 = "";
-  string sTemp2 = "";
+   char szFirst[TEMP_LEN];
+   char szSecond[TEMP_LEN];
 
-  FILE *sourceFile1 = fopen("file1.txt", "r");
-  FILE *sourceFile2 = fopen("file2.txt", "r");
+   int iLineCounter = 0;
 
-  char tmp_str1[4096];
-  char tmp_str2[4096];
+   if (argc != 3)
+   {
+      cout << "Usage: " << argv[0] << " file_one file_two" << endl;
+      system("pause");
 
-  fgets(tmp_str1, 4096, sourceFile1);
-  fgets(tmp_str2, 4096, sourceFile2);
+      return 0;
+   }
 
-  while (fgets(tmp_str1, 4096, sourceFile1) != 0 && fgets(tmp_str2, 4096, sourceFile2) != 0)
+  fFirst = fopen(argv[1], "r");
+  fSecond = fopen(argv[2], "r");
+
+  if (fFirst == NULL || fSecond == NULL)
   {
-    iCounter++;
+     cout << "Error: couldn't open file." << endl;
+     system("pause");
 
-    sTemp1 = tmp_str1;
-    sTemp2 = tmp_str2;
+     return 0;
+  }
 
-    if (sTemp1.compare(sTemp2))
+  while (fgets(szFirst, TEMP_LEN, fFirst) != 0 &&
+         fgets(szSecond, TEMP_LEN, fSecond) != 0)
+  {
+    iLineCounter++;
+
+    if (strncmp(szFirst, szSecond, TEMP_LEN) != 0)
     {
-      cout << "Difference on " << iCounter << endl;
+      cout << "Difference on " << iLineCounter << endl;
     }
   }
 
-  fclose(sourceFile1);
-  fclose(sourceFile2);
+  fclose(fFirst);
+  fclose(fSecond);
 
+  cout << "Finished!" << endl;
   system("pause");
 
   return 0;
